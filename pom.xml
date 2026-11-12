@@ -9,37 +9,37 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.udea</groupId>
-	<artifactId>agente-mcp</artifactId>
+	<artifactId>supermercado-mcp-agent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>supermercado-mcp-agent</name>
+	<description>Asistente de Supermercado: agente conversacional Google ADK que atiende pedidos a domicilio mediante un servidor MCP</description>
 
 	<properties>
 		<java.version>21</java.version>
+		<!-- google-adk y google-adk-dev deben compartir versión: google-adk-dev 1.0.0 declara google-adk 1.0.0
+		     (con 0.6.0 Maven mezclaba núcleo 0.6.0 con la interfaz de desarrollo 1.0.0). -->
+		<google-adk.version>1.0.0</google-adk.version>
 	</properties>
 	<dependencies>
 
+		<!-- Google ADK: definición del agente, runner, sesiones y cliente MCP (McpToolset, SDK MCP 0.17.2) -->
 		<dependency>
 			<groupId>com.google.adk</groupId>
 			<artifactId>google-adk</artifactId>
-			<version>0.6.0</version>
+			<version>${google-adk.version}</version>
 		</dependency>
 
+		<!-- Interfaz web de desarrollo de ADK (AdkWebServer), usada por la ejecución exec:java del proyecto base -->
 		<dependency>
 			<groupId>com.google.adk</groupId>
 			<artifactId>google-adk-dev</artifactId>
-			<version>1.0.0</version>
+			<version>${google-adk.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.httpcomponents.client5</groupId>
-			<artifactId>httpclient5</artifactId>
-			<version>5.4.2</version>
-		</dependency>
-
-
+		<!-- Se usa directamente en el código; la versión la gestiona Spring Boot (3.1.12, la misma que pide ADK 1.0.0) -->
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
-			<version>3.1.8</version>
 		</dependency>
 
 		<dependency>
@@ -67,6 +67,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<!-- Interfaz de desarrollo de ADK: mvnw.cmd compile exec:java@runAdkWebServer  ->  http://localhost:8080 -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -89,12 +90,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
-
-
-
-
 		</plugins>
 	</build>
 
